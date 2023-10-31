@@ -41,22 +41,20 @@ export default function DrawGraph({ $canvas, initialState }) {
         const canvasActualWidth = $canvas.width;
 
         const numberOfBars = this.state.length;
-        const oneBlockWidth = canvasActualWidth / numberOfBars;
-        const boxWidth = Math.floor(oneBlockWidth / 4);
+        const areaWidth = canvasActualWidth / numberOfBars;
+
+        const boxWidth = Math.floor(areaWidth / 3);
         this.state.forEach((node, idx) => {
             const barHeight = Math.round(
                 (canvasActualHeight * node.value) / this.maxValue
             );
-            const boxSize = oneBlockWidth * idx;
-            console.log('=======');
-            console.log(idx);
-            console.log(boxSize + boxWidth, 'start');
-            console.log(boxSize + boxWidth * 2, 'end');
+            const startX = areaWidth * idx;
+
             drawBar(
                 this.ctx,
-                boxSize + boxWidth,
+                startX + boxWidth,
                 canvasActualHeight - barHeight,
-                boxSize + boxWidth * 2,
+                boxWidth,
                 barHeight,
                 this.colors[idx]
             );
