@@ -22,6 +22,22 @@ export default function App({ $app }) {
                 id: 5,
                 value: 80,
             },
+            {
+                id: 0,
+                value: 100,
+            },
+            {
+                id: 1,
+                value: 50,
+            },
+            {
+                id: 2,
+                value: 70,
+            },
+            {
+                id: 5,
+                value: 80,
+            },
         ],
         willRemoveData: [],
         isDraw: false,

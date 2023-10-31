@@ -1,21 +1,15 @@
-import { getColor } from '../action/getColor.js';
-
 export default function DrawGraph({ $canvas, initialState }) {
     this.ctx = $canvas.getContext('2d');
     this.state = initialState;
     this.data = JSON.stringify(this.state);
     this.maxValue = Math.max(...this.state.map((node) => node.value));
     this.maxId = Math.max(...this.state.map((node) => node.id));
-    this.colors = [];
+    this.color = 'lightgray';
+    this.padding = 30;
 
-    for (let i = 0; i < this.state.length; i++) {
-        this.colors.push(getColor());
-    }
-
-    function drawLine(ctx, startX, startY, endX, endY, color, lineWidth) {
+    function drawLine(ctx, startX, startY, endX, endY, color) {
         ctx.save();
         ctx.strokeStyle = color;
-        ctx.lineWidth = lineWidth;
         ctx.beginPath();
         ctx.moveTo(startX, startY);
         ctx.lineTo(endX, endY);
@@ -36,55 +30,63 @@ export default function DrawGraph({ $canvas, initialState }) {
         ctx.restore();
     }
 
+    function writeText(ctx, text, x, y) {
+        ctx.save();
+        ctx.font = 'bold 15px Arial';
+        ctx.fillText(text, x, y);
+        ctx.restore();
+    }
     this.drawBars = () => {
-        const canvasActualHeight = $canvas.height;
-        const canvasActualWidth = $canvas.width;
+        const canvasHeight = $canvas.height;
+        const canvasWidth = $canvas.width;
 
         const numberOfBars = this.state.length;
-        const areaWidth = canvasActualWidth / numberOfBars;
+        const areaWidth = canvasWidth / numberOfBars;
 
-        const boxWidth = Math.floor(areaWidth / 3);
+        const boxWidth = Math.floor(areaWidth / 4);
+
         this.state.forEach((node, idx) => {
-            const barHeight = Math.round(
-                (canvasActualHeight * node.value) / this.maxValue
-            );
-            const startX = areaWidth * idx;
+            const height =
+                canvasHeight * (node.value / (this.maxValue + this.padding));
+            const startX = areaWidth * idx + this.padding;
 
             drawBar(
                 this.ctx,
                 startX + boxWidth,
-                canvasActualHeight - barHeight,
+                canvasHeight - height,
                 boxWidth,
-                barHeight,
-                this.colors[idx]
+                height - this.padding,
+                this.color
             );
+            writeText(this.ctx, node.id, startX + boxWidth * 1.4, canvasHeight);
         });
     };
 
     this.drawGridLines = () => {
-        const canvasActualHeight = $canvas.height;
-        const canvasActualWidth = $canvas.width;
+        const canvasHeight = $canvas.height;
+        const canvasWidth = $canvas.width;
         drawLine(
             this.ctx,
-            30,
-            canvasActualHeight,
-            canvasActualWidth,
-            canvasActualHeight,
-            '#000000',
-            2
+            this.padding,
+            canvasHeight - this.padding,
+            canvasWidth,
+            canvasHeight - this.padding,
+            '#000000'
         );
-        drawLine(this.ctx, 30, 0, 30, canvasActualHeight, '#000000', 1);
+        drawLine(
+            this.ctx,
+            this.padding,
+            0,
+            this.padding,
+            canvasHeight - this.padding,
+            '#000000'
+        );
 
         let gridY =
-            canvasActualHeight * (1 - this.maxValue / (this.maxValue + 10));
+            canvasHeight * (1 - this.maxValue / (this.maxValue + this.padding));
 
-        this.ctx.save();
-        this.ctx.fillStyle = 'black';
-        this.ctx.textBaseline = 'bottom';
-        this.ctx.font = 'bold 15px Arial';
-        this.ctx.fillText(this.maxValue, 0, gridY - 2);
-        this.ctx.fillText(`   0`, 0, canvasActualHeight - 2);
-        this.ctx.restore();
+        writeText(this.ctx, this.maxValue, 0, gridY);
+        writeText(this.ctx, `   0`, 0, canvasHeight - this.padding);
     };
 
     this.draw = () => {
