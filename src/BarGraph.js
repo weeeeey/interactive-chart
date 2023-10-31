@@ -1,4 +1,4 @@
-import DrawGraph from './DrawGraph.js';
+import DrawGraph from './components/DrawGraph.js';
 
 export default function BarGraph({ $app, initialState }) {
     this.state = initialState;

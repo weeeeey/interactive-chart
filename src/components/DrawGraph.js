@@ -1,4 +1,4 @@
-import { getColor } from './getColor.js';
+import { getColor } from '../action/getColor.js';
 
 export default function DrawGraph({ $canvas, initialState }) {
     this.ctx = $canvas.getContext('2d');
