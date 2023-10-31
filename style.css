@@ -1,0 +1,80 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eee;
+    flex-direction: column;
+}
+
+.App {
+    border: 2px solid;
+    background-color: #fff;
+    border-radius: 5px;
+    width: 800px;
+    height: 100%;
+    padding: 20px 100px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+}
+
+.App > div {
+    width: 100%;
+    margin-bottom: 100px;
+}
+
+.BarGraphContent {
+    padding: 30px;
+    background-color: rgba(211, 211, 211, 0.361);
+}
+
+input {
+    height: 30px;
+    border: 3px solid;
+}
+input::-webkit-inner-spin-button {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: white;
+}
+
+th,
+td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+}
+th:nth-child(2),
+td:nth-child(2) {
+    padding: 8px 80px;
+}
+th {
+    color: white;
+    background-color: gray;
+}
+
+tr:nth-child(2n-1) {
+    background-color: lightgray;
+}
+
+.Delete {
+    cursor: pointer;
+}
+#json-viewer {
+    font-family: 'Arial', sans-serif;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border: 3px solid;
+    margin: 0 auto;
+}
+button {
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
