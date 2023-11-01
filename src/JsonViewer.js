@@ -1,9 +1,4 @@
-export default function JsonViewer({
-    $app,
-    initialState,
-    handleUpdate,
-    handleApply,
-}) {
+export default function JsonViewer({ $app, initialState, handleApply }) {
     this.state = initialState;
 
     this.$target = document.createElement('div');
