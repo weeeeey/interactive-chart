@@ -128,6 +128,9 @@ export default function App({ $app }) {
     const jsonViewer = new JsonViewer({
         $app,
         initialState: this.state,
+        handleUpdate: (id, value) => {
+            console.log(id, value);
+        },
         handleApply: () => {
             if (this.state.willRemoveData.length) {
                 window.alert(
