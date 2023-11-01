@@ -16,7 +16,15 @@ export default function App({ $app }) {
             },
             {
                 id: 2,
-                value: 1,
+                value: 10,
+            },
+            {
+                id: 3,
+                value: 0,
+            },
+            {
+                id: 4,
+                value: 30,
             },
             {
                 id: 5,
@@ -30,11 +38,19 @@ export default function App({ $app }) {
             },
             {
                 id: 1,
-                value: 1,
+                value: 50,
             },
             {
                 id: 2,
-                value: 2,
+                value: 10,
+            },
+            {
+                id: 3,
+                value: 0,
+            },
+            {
+                id: 4,
+                value: 30,
             },
             {
                 id: 5,
@@ -42,18 +58,13 @@ export default function App({ $app }) {
             },
         ],
         willRemoveData: [],
+        isDraw: true,
     };
 
     //  1.그래프
     const barGraph = new BarGraph({
         $app,
         initialState: this.state,
-        showGraph: () => {
-            this.setState({
-                ...this.state,
-                isDraw: false,
-            });
-        },
     });
 
     //  2.값 편집

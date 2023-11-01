@@ -20,7 +20,7 @@ export default function BarGraph({ $app, initialState }) {
     this.render = () => {
         this.$target.innerHTML = ``;
         this.$canvas = document.createElement('canvas');
-        this.$canvas.width = 800;
+        this.$canvas.width = 750;
         this.$canvas.height = 600;
 
         this.$target.appendChild(this.$canvas);
