@@ -16,23 +16,25 @@ export default function App({ $app }) {
             },
             {
                 id: 2,
-                value: 70,
+                value: 1,
             },
             {
                 id: 5,
                 value: 80,
             },
+        ],
+        willDraw: [
             {
                 id: 0,
                 value: 100,
             },
             {
                 id: 1,
-                value: 50,
+                value: 1,
             },
             {
                 id: 2,
-                value: 70,
+                value: 2,
             },
             {
                 id: 5,
@@ -40,9 +42,9 @@ export default function App({ $app }) {
             },
         ],
         willRemoveData: [],
-        isDraw: false,
     };
 
+    //  1.그래프
     const barGraph = new BarGraph({
         $app,
         initialState: this.state,
@@ -54,6 +56,7 @@ export default function App({ $app }) {
         },
     });
 
+    //  2.값 편집
     const table = new Table({
         $app,
         initialState: this.state,
@@ -64,6 +67,10 @@ export default function App({ $app }) {
             });
         },
         handleDelete: () => {
+            if (!this.state.willRemoveData.length) {
+                window.alert('삭제 한 컨텐츠가 없습니다.');
+                return;
+            }
             this.setState({
                 ...this.state,
                 items: this.state.items.filter(
@@ -71,12 +78,18 @@ export default function App({ $app }) {
                 ),
                 willRemoveData: [],
             });
+            window.alert('적용 되었습니다.');
         },
     });
 
+    // 3.값 추가
     new ValueForm({
         $app,
         handleSubmit: (id, value) => {
+            if (value < 0) {
+                window.alert('양수의 값을 입력해주세요.');
+                return;
+            }
             if (this.state.willRemoveData.length) {
                 window.alert(
                     '2번 편집 작업이 진행 중입니다. 적용 후 값을 추가해주세요.'
@@ -96,10 +109,11 @@ export default function App({ $app }) {
                     ...this.state,
                     items: newData,
                 });
+                window.alert('적용 되었습니다.');
             }
         },
     });
-
+    // 4. 값 고급 편집
     const jsonViewer = new JsonViewer({
         $app,
         initialState: this.state,
@@ -110,9 +124,16 @@ export default function App({ $app }) {
                 );
                 return;
             }
+
             this.setState({
                 ...this.state,
-                isDraw: true,
+                willDraw: this.state.items,
+            });
+            window.alert('그래프가 수정 되었습니다.');
+
+            document.querySelector('.BarGraphContent').scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
             });
         },
     });

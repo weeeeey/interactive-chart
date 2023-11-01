@@ -10,6 +10,13 @@ export default function Table({ $app, initialState, addDelete, handleDelete }) {
     this.$table = document.createElement('table');
     this.$target.appendChild(this.$table);
 
+    this.$applyContent = document.createElement('div');
+    this.$applyContent.className = 'ApplyContent';
+    this.$applyContent.innerHTML = `
+            <button class="ApplyButton">Apply</button>
+        `;
+    this.$target.appendChild(this.$applyContent);
+
     this.setState = (nextState) => {
         this.state = nextState;
         this.render();
@@ -21,7 +28,6 @@ export default function Table({ $app, initialState, addDelete, handleDelete }) {
             <th class="th-table heading">ID</th>
             <th class="th-table heading">값</th>
             <th class="th-table heading"></th>
-            
         </tr>
         
         ${this.state.items
@@ -39,17 +45,18 @@ export default function Table({ $app, initialState, addDelete, handleDelete }) {
             })
             .join('')}
         `;
-        this.$applyButton = document.createElement('button');
-        this.$applyButton.className = 'ApplyButton';
-        this.$applyButton.innerHTML = `Apply`;
-        this.$applyButton.onclick = handleDelete;
-        this.$table.appendChild(this.$applyButton);
     };
     this.render();
 
     this.$target.addEventListener('click', (e) => {
         const td = e.target.closest('.Delete');
         if (!td) return;
-        addDelete(parseInt(td.id));
+        addDelete(parseInt(td.id)); //willRemoveData에 추가
+    });
+
+    this.$applyContent.addEventListener('click', (e) => {
+        const button = e.target.closest('.ApplyButton');
+        if (!button) return;
+        handleDelete();
     });
 }

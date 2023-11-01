@@ -10,11 +10,12 @@ export default function JsonViewer({ $app, initialState, handleApply }) {
     this.$jsonViewer.id = 'json-viewer';
     this.$target.appendChild(this.$jsonViewer);
 
-    this.$applyButton = document.createElement('button');
-    this.$applyButton.className = 'ApplyButton';
-    this.$applyButton.innerHTML = `Apply`;
-    this.$applyButton.onclick = handleApply;
-    this.$target.appendChild(this.$applyButton);
+    this.$applyContent = document.createElement('div');
+    this.$applyContent.className = 'ApplyContent';
+    this.$applyContent.innerHTML = `
+            <button class="ApplyButton">Apply</button>
+        `;
+    this.$target.appendChild(this.$applyContent);
 
     this.setState = (nextState) => {
         this.state = nextState;
@@ -29,4 +30,10 @@ export default function JsonViewer({ $app, initialState, handleApply }) {
         `;
     };
     this.render();
+
+    this.$applyContent.addEventListener('click', (e) => {
+        const button = e.target.closest('.ApplyButton');
+        if (!button) return;
+        handleApply();
+    });
 }

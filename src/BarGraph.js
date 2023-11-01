@@ -6,6 +6,10 @@ export default function BarGraph({ $app, initialState }) {
     this.$target.className = 'BarGraphContent';
     this.$target.innerHTML = `<h2>1. 그래프</h2>`;
 
+    this.$header = document.createElement('h2');
+    this.$header.innerHTML = `1.그래프`;
+
+    $app.appendChild(this.$header);
     $app.appendChild(this.$target);
 
     this.setState = (nextState) => {
@@ -24,7 +28,7 @@ export default function BarGraph({ $app, initialState }) {
         new DrawGraph({
             $canvas: this.$canvas,
 
-            initialState: this.state.items,
+            initialState: this.state.willDraw,
         }).draw();
     };
 

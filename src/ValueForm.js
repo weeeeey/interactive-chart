@@ -25,6 +25,7 @@ export default function ValueForm({ $app, initialState, handleSubmit }) {
             e.preventDefault();
             const id = e.target['id'].value;
             const value = e.target['value'].value;
+
             handleSubmit(parseInt(id), parseInt(value));
 
             e.target['id'].value = '';
