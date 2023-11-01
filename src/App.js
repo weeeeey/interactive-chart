@@ -3,6 +3,8 @@ import Table from './Table.js';
 import ValueForm from './ValueForm.js';
 import JsonViewer from './JsonViewer.js';
 
+import { scrollMove } from './action/scrollMove.js';
+
 export default function App({ $app }) {
     this.state = {
         items: [
@@ -26,10 +28,6 @@ export default function App({ $app }) {
                 id: 4,
                 value: 30,
             },
-            {
-                id: 5,
-                value: 80,
-            },
         ],
         willDraw: [
             {
@@ -51,10 +49,6 @@ export default function App({ $app }) {
             {
                 id: 4,
                 value: 30,
-            },
-            {
-                id: 5,
-                value: 80,
             },
         ],
         willRemoveData: [],
@@ -90,6 +84,7 @@ export default function App({ $app }) {
                 willRemoveData: [],
             });
             window.alert('적용 되었습니다.');
+            scrollMove('.JsonViewerContent');
         },
     });
 
@@ -121,6 +116,7 @@ export default function App({ $app }) {
                     items: newData,
                 });
                 window.alert('적용 되었습니다.');
+                scrollMove('.JsonViewerContent');
             }
         },
     });
@@ -145,10 +141,7 @@ export default function App({ $app }) {
             });
             window.alert('그래프가 수정 되었습니다.');
 
-            document.querySelector('.BarGraphContent').scrollIntoView({
-                behavior: 'smooth',
-                block: 'center',
-            });
+            scrollMove('.BarGraphContent');
         },
     });
 
