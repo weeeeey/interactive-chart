@@ -32,6 +32,17 @@ body {
     background-color: rgba(211, 211, 211, 0.361);
 }
 
+.JsonViewer {
+    background-color: rgba(211, 211, 211, 0.307);
+}
+
+.ViewerInput {
+    border: none;
+    background-color: rgba(211, 211, 211, 0.024);
+    width: 100px;
+    outline: none; /* 기본 포커스 스타일 제거 */
+}
+
 input {
     height: 30px;
     border: 3px solid;

@@ -74,6 +74,8 @@ export default function DrawGraph({ $canvas, initialState }) {
 
         const boxWidth = Math.floor(areaWidth / 4); //bar의 폭
 
+        this.state.sort((a, b) => a.id - b.id);
+
         this.state.forEach((node, idx) => {
             const barHeight =
                 (canvasHeight - this.padding * 2) *

@@ -16,6 +16,8 @@ Install the Live Server Extension
 
 ```bash
 npm install -g http-server
+```
 
+```bash
 http-server
 ```

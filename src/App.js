@@ -52,7 +52,6 @@ export default function App({ $app }) {
             },
         ],
         willRemoveData: [],
-        isDraw: true,
     };
 
     //  1.그래프
@@ -125,12 +124,29 @@ export default function App({ $app }) {
         $app,
         initialState: this.state,
 
-        handleApply: () => {
+        handleApply: (willUpdateItems) => {
+            const keys = Object.keys(willUpdateItems);
             if (this.state.willRemoveData.length) {
                 window.alert(
                     '2번 편집 작업이 진행 중입니다. 적용 후 값을 추가해주세요.'
                 );
                 return;
+            }
+            if (keys.length) {
+                this.setState({
+                    ...this.state,
+                    items: this.state.items.map((node, idx) => {
+                        if (keys.includes(idx + '')) {
+                            const { id, value } = willUpdateItems[idx + ''];
+                            return {
+                                id,
+                                value,
+                            };
+                        } else {
+                            return node;
+                        }
+                    }),
+                });
             }
 
             this.setState({
