@@ -29,29 +29,8 @@ export default function App({ $app }) {
                 value: 30,
             },
         ],
-        willDraw: [
-            {
-                id: 0,
-                value: 100,
-            },
-            {
-                id: 1,
-                value: 50,
-            },
-            {
-                id: 2,
-                value: 10,
-            },
-            {
-                id: 3,
-                value: 0,
-            },
-            {
-                id: 4,
-                value: 30,
-            },
-        ],
         willRemoveData: [],
+        isDrawing: true,
     };
 
     //  1.그래프
@@ -151,7 +130,7 @@ export default function App({ $app }) {
 
             this.setState({
                 ...this.state,
-                willDraw: this.state.items,
+                isDrawing: true,
             });
             window.alert('그래프가 수정 되었습니다.');
 
@@ -161,7 +140,14 @@ export default function App({ $app }) {
 
     this.setState = (nextState) => {
         this.state = nextState;
-        barGraph.setState(this.state);
+        // isDrawing=true 일 경우에만 그래프 그려지게 설정
+        if (this.state.isDrawing) {
+            barGraph.setState(this.state);
+            this.setState({
+                ...this.state,
+                isDrawing: false,
+            });
+        }
         table.setState(this.state);
         jsonViewer.setState(this.state);
     };

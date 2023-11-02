@@ -1,6 +1,6 @@
 import DrawGraph from './components/DrawGraph.js';
 
-export default function BarGraph({ $app, initialState }) {
+export default function BarGraph({ $app, initialState, completeDrawing }) {
     this.state = initialState;
     this.$target = document.createElement('div');
     this.$target.className = 'BarGraphContent';
@@ -28,7 +28,7 @@ export default function BarGraph({ $app, initialState }) {
         new DrawGraph({
             $canvas: this.$canvas,
 
-            initialState: this.state.willDraw,
+            initialState: this.state.items,
         }).draw();
     };
 
