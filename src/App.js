@@ -69,6 +69,7 @@ export default function App({ $app }) {
             this.setState({
                 ...this.state,
                 items: newData,
+                willRemoveData: [],
             });
             window.alert('적용 되었습니다.');
         },
@@ -82,12 +83,7 @@ export default function App({ $app }) {
                 window.alert('양수의 값을 입력해주세요.');
                 return;
             }
-            if (this.state.willRemoveData.length) {
-                window.alert(
-                    '다른 작업이 진행 중입니다. 적용 후 값을 추가해주세요.'
-                );
-                return;
-            }
+
             if (this.state.items.some((node) => node.id === id)) {
                 window.alert('중복 된 id 값입니다. 수정해주세요.');
                 return;
