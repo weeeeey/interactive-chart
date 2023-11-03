@@ -49,7 +49,6 @@ export default function App({ $app }) {
                 willRemoveData: [...this.state.willRemoveData, id],
             });
         },
-
         handleApply: (editedValues, deletedIds) => {
             let newData = this.state.items.map((node) => {
                 const value =
@@ -84,7 +83,13 @@ export default function App({ $app }) {
                 window.alert('양수의 값을 입력해주세요.');
                 return;
             }
-
+            if (this.state.willRemoveData.length > 0) {
+                window.alert(
+                    '2번 작업이 진행 중입니다. 적용 후 값을 추가해주세요. '
+                );
+                scrollMove('.EditorContent');
+                return;
+            }
             if (this.state.items.some((node) => node.id === id)) {
                 window.alert('중복 된 id 값입니다. 수정해주세요.');
                 return;
@@ -112,7 +117,7 @@ export default function App({ $app }) {
             const keys = Object.keys(willUpdateItems);
             if (this.state.willRemoveData.length) {
                 window.alert(
-                    '다른 작업이 진행 중입니다. 적용 후 값을 추가해주세요.'
+                    '2번 작업이 진행 중입니다. 적용 후 값을 추가해주세요.'
                 );
                 return;
             }
