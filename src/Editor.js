@@ -1,13 +1,10 @@
-export default function Editor({
-    $app,
-    initialState,
-    addDelete,
-    handleDelete,
-}) {
+export default function Editor({ $app, initialState, addDelete, handleApply }) {
     this.state = initialState;
+    this.editedValues = {};
+    this.deletedIds = [];
 
     this.$target = document.createElement('div');
-    this.$target.className = 'TableContent';
+    this.$target.className = 'EditorContent';
     this.$target.innerHTML = `<h2>2.값 편집</h2>`;
 
     $app.appendChild(this.$target);
@@ -41,9 +38,11 @@ export default function Editor({
                     return;
                 }
                 return `
-                    <tr style="text-align: center; ">
+                    <tr>
                         <td>${node.id}</td>
-                        <td>${node.value}</td>
+                        <td style="padding-left: 150px;">
+                            <input class="EditInput value" data-id=${node.id} value=${node.value} type="number" />
+                        </td>
                         <td class="Delete" id=${node.id} style="color: rgb(255, 0, 0)">삭제</td>
                     </tr>
                 `;
@@ -57,11 +56,20 @@ export default function Editor({
         const td = e.target.closest('.Delete');
         if (!td) return;
         addDelete(parseInt(td.id)); //willRemoveData에 추가
+        this.deletedIds.push(parseInt(td.id));
+    });
+
+    this.$table.addEventListener('input', (e) => {
+        const { id: itemId } = e.target.dataset; //items.id
+        const data = e.target.value === '' ? 0 : parseInt(e.target.value); //새로 입력 된 input 값
+        this.editedValues[itemId] = data;
     });
 
     this.$applyContent.addEventListener('click', (e) => {
         const button = e.target.closest('.ApplyButton');
         if (!button) return;
-        handleDelete();
+        handleApply(this.editedValues, this.deletedIds);
+        this.editedValues = {};
+        this.deletedIds = [];
     });
 }

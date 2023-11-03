@@ -49,17 +49,26 @@ export default function App({ $app }) {
                 willRemoveData: [...this.state.willRemoveData, id],
             });
         },
-        handleDelete: () => {
-            if (!this.state.willRemoveData.length) {
-                window.alert('수정 한 컨텐츠가 없습니다.');
-                return;
+
+        handleApply: (editedValues, deletedIds) => {
+            let newData = this.state.items.map((node) => {
+                const value =
+                    editedValues[node.id] === undefined
+                        ? node.value
+                        : editedValues[node.id];
+                return {
+                    id: node.id,
+                    value,
+                };
+            });
+            if (deletedIds.length > 0) {
+                newData = this.state.items.filter(
+                    (node) => !deletedIds.includes(node.id)
+                );
             }
             this.setState({
                 ...this.state,
-                items: this.state.items.filter(
-                    (node) => !this.state.willRemoveData.includes(node.id)
-                ),
-                willRemoveData: [],
+                items: newData,
             });
             window.alert('적용 되었습니다.');
         },
