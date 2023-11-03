@@ -31,7 +31,7 @@ export default function PrimeEditor({ $app, initialState, handleApply }) {
             .map(
                 (node, idx) => `
             {
-                "id": ${node.id},
+                "id": <input class="EditInput id" data-id=${idx} value=${node.id} type="number" />
                 "value": <input class="EditInput value" data-id=${idx} value=${node.value} type="number" />
             },
         `

@@ -6,5 +6,8 @@ export function getLocalData() {
     return [];
 }
 export function setLocalData(newData) {
-    window.localStorage.setItem(LOCAL_KEY, JSON.stringify(newData));
+    window.localStorage.setItem(
+        LOCAL_KEY,
+        JSON.stringify(newData.sort((a, b) => a.id - b.id))
+    );
 }
