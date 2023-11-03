@@ -10,23 +10,23 @@ export default function App({ $app }) {
         items: [
             {
                 id: 0,
-                value: 100,
+                value: 75,
             },
             {
                 id: 1,
-                value: 50,
+                value: 20,
             },
             {
                 id: 2,
-                value: 10,
+                value: 80,
             },
             {
                 id: 3,
-                value: 0,
+                value: 100,
             },
             {
                 id: 4,
-                value: 30,
+                value: 70,
             },
         ],
         willRemoveData: [],
