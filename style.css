@@ -36,11 +36,10 @@ body {
     background-color: rgba(211, 211, 211, 0.307);
 }
 
-.ViewerInput {
+.EditInput {
     border: none;
     background-color: transparent;
     width: 100px;
-    outline: none; /* 기본 포커스 스타일 제거 */
 }
 
 input {

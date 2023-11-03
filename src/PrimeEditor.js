@@ -31,8 +31,8 @@ export default function PrimeEditor({ $app, initialState, handleApply }) {
             .map(
                 (node, idx) => `
             {
-                "id": <input class="ViewerInput id" data-id=${idx} value=${node.id} type="number" />
-                "value": <input class="ViewerInput value" data-id=${idx} value=${node.value} type="number" />
+                "id": ${node.id}
+                "value": <input class="EditInput value" data-id=${idx} value=${node.value} type="number" />
             },
         `
             )
@@ -52,9 +52,9 @@ export default function PrimeEditor({ $app, initialState, handleApply }) {
     });
 
     this.$primeEditor.addEventListener('input', (e) => {
-        const key = e.target.className.split(' ')[1]; //id 값인지 value 값인지 구분
+        const key = e.target.className.split(' ')[1]; // value 가 맞는지 체크
         const { id: index } = e.target.dataset; //items의 인덱스
-        const data = parseInt(e.target.value); //새로 입력 된 input 값
+        const data = e.target.value === '' ? 0 : parseInt(e.target.value); //새로 입력 된 input 값
         const { id, value } = this.state.items[index];
 
         if (this.willUpdata[index] === undefined) {
