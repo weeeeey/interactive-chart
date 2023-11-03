@@ -44,6 +44,7 @@ export default function PrimeEditor({ $app, initialState, handleApply }) {
     };
     this.render();
 
+    // handle Apply
     this.$applyContent.addEventListener('click', (e) => {
         const button = e.target.closest('.ApplyButton');
         if (!button) return;
@@ -51,6 +52,7 @@ export default function PrimeEditor({ $app, initialState, handleApply }) {
         this.willUpdata = {};
     });
 
+    // alter {id,value}
     this.$primeEditor.addEventListener('input', (e) => {
         const key = e.target.className.split(' ')[1]; // value 가 맞는지 체크
         const { id: index } = e.target.dataset; //items의 인덱스

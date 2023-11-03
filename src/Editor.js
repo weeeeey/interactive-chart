@@ -60,6 +60,7 @@ export default function Editor({ $app, initialState, addDelete, handleApply }) {
     };
     this.render();
 
+    // delete {Id,value}
     this.$target.addEventListener('click', (e) => {
         const td = e.target.closest('.Delete');
         if (!td) return;
@@ -67,13 +68,14 @@ export default function Editor({ $app, initialState, addDelete, handleApply }) {
         addDelete(parseInt(id)); //willRemoveData에 추가
         this.deletedIds.push(parseInt(id));
     });
-
+    // alter value
     this.$table.addEventListener('input', (e) => {
         const { id: itemId } = e.target.dataset; //items.id
         const data = e.target.value === '' ? 0 : parseInt(e.target.value); //새로 입력 된 input 값
         this.editedValues[itemId] = data;
     });
 
+    //handle Apply
     this.$applyContent.addEventListener('click', (e) => {
         const button = e.target.closest('.ApplyButton');
         if (!button) return;

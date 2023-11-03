@@ -4,33 +4,35 @@ import AddForm from './AddForm.js';
 import PrimeEditor from './PrimeEditor.js';
 
 import { scrollMove } from './action/scrollMove.js';
+import { getLocalData, setLocalData } from './action/localStorage.js';
+
+const initialItems = [
+    {
+        id: 0,
+        value: 75,
+    },
+    {
+        id: 1,
+        value: 20,
+    },
+    {
+        id: 2,
+        value: 80,
+    },
+    {
+        id: 3,
+        value: 100,
+    },
+    {
+        id: 4,
+        value: 70,
+    },
+];
 
 export default function App({ $app }) {
     this.state = {
-        items: [
-            {
-                id: 0,
-                value: 75,
-            },
-            {
-                id: 1,
-                value: 20,
-            },
-            {
-                id: 2,
-                value: 80,
-            },
-            {
-                id: 3,
-                value: 100,
-            },
-            {
-                id: 4,
-                value: 70,
-            },
-        ],
+        items: [],
         willRemoveData: [],
-        isDrawing: true,
     };
 
     //  1.그래프
@@ -67,7 +69,7 @@ export default function App({ $app }) {
                 willRemoveData: [],
             });
             window.alert('적용 되었습니다.');
-            scrollMove('.PrimeEditorContent');
+            scrollMove('.BarGraphContent');
         },
     });
 
@@ -100,7 +102,7 @@ export default function App({ $app }) {
                     items: newData,
                 });
                 window.alert('적용 되었습니다.');
-                scrollMove('.PrimeEditorContent');
+                scrollMove('.BarGraphContent');
             }
         },
     });
@@ -137,7 +139,6 @@ export default function App({ $app }) {
 
             this.setState({
                 ...this.state,
-                isDrawing: true,
             });
             window.alert('그래프가 수정 되었습니다.');
 
@@ -147,15 +148,26 @@ export default function App({ $app }) {
 
     this.setState = (nextState) => {
         this.state = nextState;
-        // isDrawing=true 일 경우에만 그래프 그려지게 설정
-        if (this.state.isDrawing) {
-            barGraph.setState(this.state);
-            this.setState({
-                ...this.state,
-                isDrawing: false,
-            });
-        }
+        barGraph.setState(this.state);
         editor.setState(this.state);
         primeEditor.setState(this.state);
+        setLocalData(this.state.items);
     };
+
+    this.init = () => {
+        const data = getLocalData();
+        if (data.length) {
+            this.setState({
+                ...this.state,
+                items: data,
+            });
+        } else {
+            this.setState({
+                ...this.state,
+                items: initialItems,
+            });
+        }
+    };
+
+    this.init();
 }
