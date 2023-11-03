@@ -43,7 +43,7 @@ export default function Editor({ $app, initialState, addDelete, handleApply }) {
                         <td style="padding-left: 150px;">
                             <input class="EditInput value" data-id=${node.id} value=${node.value} type="number" />
                         </td>
-                        <td class="Delete" id=${node.id} style="color: rgb(255, 0, 0)">삭제</td>
+                        <td class="Delete" data-id=${node.id} style="color: rgb(255, 0, 0)">삭제</td>
                     </tr>
                 `;
             })
@@ -55,8 +55,9 @@ export default function Editor({ $app, initialState, addDelete, handleApply }) {
     this.$target.addEventListener('click', (e) => {
         const td = e.target.closest('.Delete');
         if (!td) return;
-        addDelete(parseInt(td.id)); //willRemoveData에 추가
-        this.deletedIds.push(parseInt(td.id));
+        const { id } = e.target.dataset;
+        addDelete(parseInt(id)); //willRemoveData에 추가
+        this.deletedIds.push(parseInt(id));
     });
 
     this.$table.addEventListener('input', (e) => {
