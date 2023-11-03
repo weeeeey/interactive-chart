@@ -72,6 +72,7 @@ export default function App({ $app }) {
                 willRemoveData: [],
             });
             window.alert('적용 되었습니다.');
+            scrollMove('.PrimeEditorContent');
         },
     });
 
@@ -98,6 +99,7 @@ export default function App({ $app }) {
                     items: newData,
                 });
                 window.alert('적용 되었습니다.');
+                scrollMove('.PrimeEditorContent');
             }
         },
     });
