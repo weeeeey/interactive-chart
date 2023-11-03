@@ -1,6 +1,12 @@
-export default function PrimeEditor({ $app, initialState, handleApply }) {
+import ApplyButton from './components/ApplyButton.js';
+
+export default function PrimeEditor({
+    $app,
+    initialState,
+    isValidate,
+    handleApply,
+}) {
     this.state = initialState;
-    this.previousText = [];
 
     this.$target = document.createElement('div');
     this.$target.className = 'PrimeEditorContent';
@@ -11,12 +17,7 @@ export default function PrimeEditor({ $app, initialState, handleApply }) {
     this.$primeEditor.className = 'PrimeEditor';
     this.$target.appendChild(this.$primeEditor);
 
-    this.$applyContent = document.createElement('div');
-    this.$applyContent.className = 'ApplyContent';
-    this.$applyContent.innerHTML = `
-            <button class="ApplyButton">Apply</button>
-        `;
-    this.$target.appendChild(this.$applyContent);
+    new ApplyButton({ $app: this.$target });
 
     this.setState = (nextState) => {
         this.state = nextState;
@@ -25,46 +26,31 @@ export default function PrimeEditor({ $app, initialState, handleApply }) {
 
     this.render = () => {
         this.$primeEditor.innerHTML = `
-    <textarea id="editorTextArea" cols="100" rows=${
-        this.state.items.length * 5
-    }>
+            <textarea id="editorTextArea" cols="91" rows=${
+                this.state.items.length * 7
+            }>
 ${JSON.stringify(this.state.items, null, 4)}
-    </textarea>
+            </textarea>
     `;
-        this.previousText = JSON.stringify(this.state.items, null, 4);
     };
 
     this.render();
 
-    // handle Apply
-    this.$applyContent.addEventListener('click', (e) => {
+    // handle Apply Button
+    this.$target.addEventListener('click', (e) => {
         const button = e.target.closest('.ApplyButton');
         if (!button) return;
-        console.log(JSON.parse(this.previousText));
-        handleApply(JSON.parse(this.previousText));
-    });
 
-    // alter {id,value}
-    this.$primeEditor.addEventListener('input', (e) => {
-        const textarea = e.target.closest('textarea');
-        if (!textarea) return;
+        const $editorTextArea = document.querySelector('#editorTextArea');
         try {
-            const newItems = JSON.parse(textarea.value);
-            if (
-                newItems.some(
-                    (node) =>
-                        JSON.stringify(Object.keys(node)) !==
-                        JSON.stringify(['id', 'value'])
-                )
-            ) {
-                window.alert('key 값 변경 금지');
-                textarea.value = this.previousText;
+            const newItems = JSON.parse($editorTextArea.value);
+
+            if (!isValidate(newItems)) {
+                return;
             }
+            handleApply(newItems);
         } catch (error) {
-            window.alert('json 형태를 유지하시오');
-            textarea.value = this.previousText;
-        } finally {
-            this.previousText = textarea.value;
+            window.alert('json 형태를 유지해주세요.');
         }
     });
 }

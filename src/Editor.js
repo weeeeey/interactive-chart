@@ -1,3 +1,5 @@
+import ApplyButton from './components/ApplyButton.js';
+
 export default function Editor({ $app, initialState, handleApply }) {
     this.state = initialState;
     this.editedValues = {};
@@ -12,12 +14,7 @@ export default function Editor({ $app, initialState, handleApply }) {
     this.$table = document.createElement('table');
     this.$target.appendChild(this.$table);
 
-    this.$applyContent = document.createElement('div');
-    this.$applyContent.className = 'ApplyContent';
-    this.$applyContent.innerHTML = `
-            <button class="ApplyButton">Apply</button>
-        `;
-    this.$target.appendChild(this.$applyContent);
+    new ApplyButton({ $app: this.$target });
 
     this.setState = (nextState) => {
         this.state = nextState;
@@ -72,11 +69,16 @@ export default function Editor({ $app, initialState, handleApply }) {
     this.$table.addEventListener('input', (e) => {
         const { id: itemId } = e.target.dataset; //items.id
         const data = e.target.value === '' ? 0 : parseInt(e.target.value); //새로 입력 된 input 값
+        if (data < 0) {
+            window.alert('양수의 값을 입력해주세요.');
+            e.target.value = 0;
+            return;
+        }
         this.editedValues[itemId] = data;
     });
 
     //handle Apply
-    this.$applyContent.addEventListener('click', (e) => {
+    this.$target.addEventListener('click', (e) => {
         const button = e.target.closest('.ApplyButton');
         if (!button) return;
         handleApply(this.editedValues, this.deletedIds);

@@ -88,13 +88,7 @@ th {
     display: flex;
     flex-direction: row-reverse;
 }
-#json-viewer {
-    font-family: 'Arial', sans-serif;
-    padding: 10px;
-    background-color: #f4f4f4;
-    border: 3px solid;
-    margin: 0 auto;
-}
+
 #editorTextArea {
     padding: 20px;
 }

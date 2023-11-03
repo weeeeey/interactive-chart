@@ -6,6 +6,7 @@ import PrimeEditor from './PrimeEditor.js';
 import { scrollMove } from './action/scrollMove.js';
 import { getLocalData, setLocalData } from './action/localStorage.js';
 
+// localStorage에 데이터가 없을 시 적용 될 데이터 표본
 const initialItems = [
     {
         id: 0,
@@ -98,12 +99,41 @@ export default function App({ $app }) {
     const primeEditor = new PrimeEditor({
         $app,
         initialState: this.state,
+        isValidate: (newItems) => {
+            // 입력 받은 {id, value} 에 대해 유효성 검증
+            if (
+                newItems.some(
+                    (node) =>
+                        JSON.stringify(Object.keys(node)) !==
+                        JSON.stringify(['id', 'value'])
+                )
+            ) {
+                // 키 값 변경 감지
+                window.alert('key 값의 이름을 유지해주세요. {id , value}');
+                return false;
+            }
 
+            const idArray = [];
+            const valueArray = [];
+            newItems.forEach((node) => {
+                idArray.push(node.id);
+                valueArray.push(node.value);
+            });
+            if (new Set(idArray).size !== idArray.length) {
+                window.alert('id가 중복 됩니다. ');
+                return false;
+            }
+            if (idArray.some((id) => id < 0) || valueArray.some((v) => v < 0)) {
+                window.alert('양수의 값을 입력해주세요.');
+                return false;
+            }
+            return true;
+        },
         handleApply: (willUpdateItems) => {
             willUpdateItems.sort((a, b) => a.id - b.id);
             this.setState({
                 ...this.state,
-                items: willUpdateItems,
+                items: [...willUpdateItems],
             });
             window.alert('그래프가 수정 되었습니다.');
 
@@ -116,10 +146,11 @@ export default function App({ $app }) {
         barGraph.setState(this.state);
         editor.setState(this.state);
         primeEditor.setState(this.state);
-        setLocalData(this.state.items);
+        setLocalData(this.state.items); // localStorage 업데이트
     };
 
     this.init = () => {
+        // 새로 고침시에도 값을 유지하기 위해 localStorage 를 이용
         const data = getLocalData();
         if (data.length) {
             this.setState({
