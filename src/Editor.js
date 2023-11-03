@@ -41,9 +41,17 @@ export default function Editor({ $app, initialState, addDelete, handleApply }) {
                     <tr>
                         <td>${node.id}</td>
                         <td style="padding-left: 150px;">
-                            <input class="EditInput value" data-id=${node.id} value=${node.value} type="number" />
+                            <input class="EditInput value" data-id=${
+                                node.id
+                            } value=${
+                    this.editedValues[node.id]
+                        ? this.editedValues[node.id]
+                        : node.value
+                } type="number" />
                         </td>
-                        <td class="Delete" data-id=${node.id} style="color: rgb(255, 0, 0)">삭제</td>
+                        <td class="Delete" data-id=${
+                            node.id
+                        } style="color: rgb(255, 0, 0)">삭제</td>
                     </tr>
                 `;
             })

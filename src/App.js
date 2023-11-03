@@ -60,14 +60,10 @@ export default function App({ $app }) {
                     value,
                 };
             });
-            if (deletedIds.length > 0) {
-                newData = this.state.items.filter(
-                    (node) => !deletedIds.includes(node.id)
-                );
-            }
+
             this.setState({
                 ...this.state,
-                items: newData,
+                items: newData.filter((node) => !deletedIds.includes(node.id)),
                 willRemoveData: [],
             });
             window.alert('적용 되었습니다.');
