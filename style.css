@@ -32,13 +32,13 @@ body {
     background-color: rgba(211, 211, 211, 0.361);
 }
 
-.JsonViewer {
+.PrimeEditor {
     background-color: rgba(211, 211, 211, 0.307);
 }
 
 .ViewerInput {
     border: none;
-    background-color: rgba(211, 211, 211, 0.024);
+    background-color: transparent;
     width: 100px;
     outline: none; /* 기본 포커스 스타일 제거 */
 }

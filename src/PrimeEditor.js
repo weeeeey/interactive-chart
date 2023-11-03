@@ -1,14 +1,14 @@
-export default function JsonViewer({ $app, initialState, handleApply }) {
+export default function PrimeEditor({ $app, initialState, handleApply }) {
     this.state = initialState;
     this.willUpdata = {};
     this.$target = document.createElement('div');
-    this.$target.className = 'JsonViewerContent';
+    this.$target.className = 'PrimeEditorContent';
     this.$target.innerHTML = `<h2>4.값 고급 편집</h2>`;
     $app.appendChild(this.$target);
 
-    this.$jsonViewer = document.createElement('div');
-    this.$jsonViewer.className = 'JsonViewer';
-    this.$target.appendChild(this.$jsonViewer);
+    this.$primeEditor = document.createElement('div');
+    this.$primeEditor.className = 'PrimeEditor';
+    this.$target.appendChild(this.$primeEditor);
 
     this.$applyContent = document.createElement('div');
     this.$applyContent.className = 'ApplyContent';
@@ -23,7 +23,7 @@ export default function JsonViewer({ $app, initialState, handleApply }) {
     };
 
     this.render = () => {
-        this.$jsonViewer.innerHTML = `
+        this.$primeEditor.innerHTML = `
         <pre>
         
     [
@@ -50,7 +50,8 @@ export default function JsonViewer({ $app, initialState, handleApply }) {
         handleApply(this.willUpdata);
         this.willUpdata = {};
     });
-    this.$jsonViewer.addEventListener('input', (e) => {
+
+    this.$primeEditor.addEventListener('input', (e) => {
         const key = e.target.className.split(' ')[1]; //id 값인지 value 값인지 구분
         const { id: index } = e.target.dataset; //items의 인덱스
         const data = parseInt(e.target.value); //새로 입력 된 input 값

@@ -1,4 +1,9 @@
-export default function Table({ $app, initialState, addDelete, handleDelete }) {
+export default function Editor({
+    $app,
+    initialState,
+    addDelete,
+    handleDelete,
+}) {
     this.state = initialState;
 
     this.$target = document.createElement('div');

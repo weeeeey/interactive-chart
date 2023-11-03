@@ -1,8 +1,8 @@
-export default function ValueForm({ $app, initialState, handleSubmit }) {
+export default function AddForm({ $app, initialState, handleSubmit }) {
     this.state = initialState;
 
     this.$target = document.createElement('div');
-    this.$target.className = 'ValueFormContent';
+    this.$target.className = 'AddFormContent';
     this.$target.innerHTML = `<h2>3.값 추가</h2>`;
 
     $app.appendChild(this.$target);

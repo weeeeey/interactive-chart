@@ -1,7 +1,7 @@
 import BarGraph from './BarGraph.js';
-import Table from './Table.js';
-import ValueForm from './ValueForm.js';
-import JsonViewer from './JsonViewer.js';
+import Editor from './Editor.js';
+import AddForm from './AddForm.js';
+import PrimeEditor from './PrimeEditor.js';
 
 import { scrollMove } from './action/scrollMove.js';
 
@@ -40,7 +40,7 @@ export default function App({ $app }) {
     });
 
     //  2.값 편집
-    const table = new Table({
+    const editor = new Editor({
         $app,
         initialState: this.state,
         addDelete: (id) => {
@@ -51,7 +51,7 @@ export default function App({ $app }) {
         },
         handleDelete: () => {
             if (!this.state.willRemoveData.length) {
-                window.alert('삭제 한 컨텐츠가 없습니다.');
+                window.alert('수정 한 컨텐츠가 없습니다.');
                 return;
             }
             this.setState({
@@ -62,12 +62,11 @@ export default function App({ $app }) {
                 willRemoveData: [],
             });
             window.alert('적용 되었습니다.');
-            scrollMove('.JsonViewerContent');
         },
     });
 
     // 3.값 추가
-    new ValueForm({
+    new AddForm({
         $app,
         handleSubmit: (id, value) => {
             if (value < 0) {
@@ -76,7 +75,7 @@ export default function App({ $app }) {
             }
             if (this.state.willRemoveData.length) {
                 window.alert(
-                    '2번 편집 작업이 진행 중입니다. 적용 후 값을 추가해주세요.'
+                    '다른 작업이 진행 중입니다. 적용 후 값을 추가해주세요.'
                 );
                 return;
             }
@@ -94,12 +93,11 @@ export default function App({ $app }) {
                     items: newData,
                 });
                 window.alert('적용 되었습니다.');
-                scrollMove('.JsonViewerContent');
             }
         },
     });
     // 4. 값 고급 편집
-    const jsonViewer = new JsonViewer({
+    const primeEditor = new PrimeEditor({
         $app,
         initialState: this.state,
 
@@ -107,7 +105,7 @@ export default function App({ $app }) {
             const keys = Object.keys(willUpdateItems);
             if (this.state.willRemoveData.length) {
                 window.alert(
-                    '2번 편집 작업이 진행 중입니다. 적용 후 값을 추가해주세요.'
+                    '다른 작업이 진행 중입니다. 적용 후 값을 추가해주세요.'
                 );
                 return;
             }
@@ -148,7 +146,7 @@ export default function App({ $app }) {
                 isDrawing: false,
             });
         }
-        table.setState(this.state);
-        jsonViewer.setState(this.state);
+        editor.setState(this.state);
+        primeEditor.setState(this.state);
     };
 }
