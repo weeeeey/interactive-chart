@@ -27,7 +27,7 @@ export default function PrimeEditor({
     this.render = () => {
         this.$primeEditor.innerHTML = `
             <textarea id="editorTextArea" cols="91" rows=${
-                this.state.items.length * 7
+                this.state.items.length * 6
             }>
 ${JSON.stringify(this.state.items, null, 4)}
             </textarea>
