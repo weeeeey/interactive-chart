@@ -119,6 +119,7 @@ export default function App({ $app }) {
                 window.alert(
                     '2번 작업이 진행 중입니다. 적용 후 값을 추가해주세요.'
                 );
+                scrollMove('.EditorContent');
                 return;
             }
             if (keys.length) {
