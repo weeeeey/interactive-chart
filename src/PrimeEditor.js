@@ -1,6 +1,7 @@
 export default function PrimeEditor({ $app, initialState, handleApply }) {
     this.state = initialState;
-    this.willUpdata = {};
+    this.previousText = [];
+
     this.$target = document.createElement('div');
     this.$target.className = 'PrimeEditorContent';
     this.$target.innerHTML = `<h2>4.값 고급 편집</h2>`;
@@ -24,50 +25,46 @@ export default function PrimeEditor({ $app, initialState, handleApply }) {
 
     this.render = () => {
         this.$primeEditor.innerHTML = `
-        <pre>
-        
-    [
-        ${this.state.items
-            .map(
-                (node, idx) => `
-            {
-                "id": <input class="EditInput id" data-id=${idx} value=${node.id} type="number" />
-                "value": <input class="EditInput value" data-id=${idx} value=${node.value} type="number" />
-            },
-        `
-            )
-            .join('')}
-    ]
-
-        </pre>
-        `;
+    <textarea id="editorTextArea" cols="100" rows=${
+        this.state.items.length * 5
+    }>
+${JSON.stringify(this.state.items, null, 4)}
+    </textarea>
+    `;
+        this.previousText = JSON.stringify(this.state.items, null, 4);
     };
+
     this.render();
 
     // handle Apply
     this.$applyContent.addEventListener('click', (e) => {
         const button = e.target.closest('.ApplyButton');
         if (!button) return;
-        handleApply(this.willUpdata);
-        this.willUpdata = {};
+        console.log(JSON.parse(this.previousText));
+        handleApply(JSON.parse(this.previousText));
     });
 
     // alter {id,value}
     this.$primeEditor.addEventListener('input', (e) => {
-        const key = e.target.className.split(' ')[1]; // value 가 맞는지 체크
-        const { id: index } = e.target.dataset; //items의 인덱스
-        const data = e.target.value === '' ? 0 : parseInt(e.target.value); //새로 입력 된 input 값
-        const { id, value } = this.state.items[index];
-
-        if (this.willUpdata[index] === undefined) {
-            this.willUpdata[index] = {
-                id,
-                value,
-            };
+        const textarea = e.target.closest('textarea');
+        if (!textarea) return;
+        try {
+            const newItems = JSON.parse(textarea.value);
+            if (
+                newItems.some(
+                    (node) =>
+                        JSON.stringify(Object.keys(node)) !==
+                        JSON.stringify(['id', 'value'])
+                )
+            ) {
+                window.alert('key 값 변경 금지');
+                textarea.value = this.previousText;
+            }
+        } catch (error) {
+            window.alert('json 형태를 유지하시오');
+            textarea.value = this.previousText;
+        } finally {
+            this.previousText = textarea.value;
         }
-        this.willUpdata[index] = {
-            ...this.willUpdata[index],
-            [key]: data,
-        };
     });
 }

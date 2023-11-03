@@ -1,4 +1,4 @@
-export default function Editor({ $app, initialState, addDelete, handleApply }) {
+export default function Editor({ $app, initialState, handleApply }) {
     this.state = initialState;
     this.editedValues = {};
     this.deletedIds = [];
@@ -34,7 +34,7 @@ export default function Editor({ $app, initialState, addDelete, handleApply }) {
         
         ${this.state.items
             .map((node) => {
-                if (this.state.willRemoveData.includes(node.id)) {
+                if (this.deletedIds.includes(node.id)) {
                     return;
                 }
                 return `
@@ -65,8 +65,8 @@ export default function Editor({ $app, initialState, addDelete, handleApply }) {
         const td = e.target.closest('.Delete');
         if (!td) return;
         const { id } = e.target.dataset;
-        addDelete(parseInt(id)); //willRemoveData에 추가
         this.deletedIds.push(parseInt(id));
+        this.render();
     });
     // alter value
     this.$table.addEventListener('input', (e) => {

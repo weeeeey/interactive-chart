@@ -32,7 +32,6 @@ const initialItems = [
 export default function App({ $app }) {
     this.state = {
         items: [],
-        willRemoveData: [],
     };
 
     //  1.그래프
@@ -45,12 +44,7 @@ export default function App({ $app }) {
     const editor = new Editor({
         $app,
         initialState: this.state,
-        addDelete: (id) => {
-            this.setState({
-                ...this.state,
-                willRemoveData: [...this.state.willRemoveData, id],
-            });
-        },
+
         handleApply: (editedValues, deletedIds) => {
             let newData = this.state.items.map((node) => {
                 const value =
@@ -77,17 +71,11 @@ export default function App({ $app }) {
     new AddForm({
         $app,
         handleSubmit: (id, value) => {
-            if (value < 0) {
+            if (value < 0 || id < 0) {
                 window.alert('양수의 값을 입력해주세요.');
                 return;
             }
-            if (this.state.willRemoveData.length > 0) {
-                window.alert(
-                    '2번 작업이 진행 중입니다. 적용 후 값을 추가해주세요. '
-                );
-                scrollMove('.EditorContent');
-                return;
-            }
+
             if (this.state.items.some((node) => node.id === id)) {
                 window.alert('중복 된 id 값입니다. 수정해주세요.');
                 return;
@@ -112,33 +100,10 @@ export default function App({ $app }) {
         initialState: this.state,
 
         handleApply: (willUpdateItems) => {
-            const keys = Object.keys(willUpdateItems);
-            if (this.state.willRemoveData.length) {
-                window.alert(
-                    '2번 작업이 진행 중입니다. 적용 후 값을 추가해주세요.'
-                );
-                scrollMove('.EditorContent');
-                return;
-            }
-            if (keys.length) {
-                this.setState({
-                    ...this.state,
-                    items: this.state.items.map((node, idx) => {
-                        if (keys.includes(idx + '')) {
-                            const { id, value } = willUpdateItems[idx + ''];
-                            return {
-                                id,
-                                value,
-                            };
-                        } else {
-                            return node;
-                        }
-                    }),
-                });
-            }
-
+            willUpdateItems.sort((a, b) => a.id - b.id);
             this.setState({
                 ...this.state,
+                items: willUpdateItems,
             });
             window.alert('그래프가 수정 되었습니다.');
 
